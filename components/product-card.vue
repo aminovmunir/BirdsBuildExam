@@ -46,9 +46,9 @@
         </div>
       </div>
       <div class="action-buttons-container">
-        <button v-if="route.path == '/' || route.path == '/favorite'" @click="submit(props.product.id)"
+        <button v-if="route.path == '/' || route.path == '/favorites'" @click="submit(props.product.id)"
         class="submit-btn">Добавить в сделки</button>
-        <button v-else-if="route.path == '/deals' && props.product.is_paid == '0'"
+        <button v-else-if="route.path.includes('/deals') && props.product.is_paid === '0'"
         class="submit-btn green"
         @click="pay(props.product.deal_id)">Оплатить</button>
         <button v-else
@@ -69,6 +69,7 @@ const route = useRoute()
 const props = defineProps({
   product: Object as PropType<Product>,
 })
+console.log(route.path);
 
 const emit = defineEmits(['addFavorite', 'removeFavorite', 'addDeal', 'payDeal'])
 

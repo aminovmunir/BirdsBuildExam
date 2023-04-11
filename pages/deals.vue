@@ -24,8 +24,10 @@ const client = new ClientJS();
 const fingerprint = client.getFingerprint();
 
 onMounted(async ()=>{
+  const selling_type = localStorage.getItem('selling_type')
+  const name = localStorage.getItem('name')
   store.setLoading(true)
-  await store.getDeals(fingerprint)
+  await store.getDeals(fingerprint, selling_type, name)
   store.setLoading(false)
 })
 
