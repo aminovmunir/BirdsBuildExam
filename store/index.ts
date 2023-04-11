@@ -10,9 +10,13 @@ export const useStore = defineStore('store', {
     favorites: <Product[]>[],
     activeSellingType: selling_type ? selling_type : '',
     deals: <Product[]>[],
+    loading: false,
   }),
 
   actions: {
+    setLoading(state: boolean): void{
+      this.loading = state
+    },
     async getProducts(fingerprint: number, selling_type: string | null = null, name: string | null = null) {
       try {
         const result = await $axios.get('/', {params: { device_id: fingerprint, selling_type: selling_type, name: name }})

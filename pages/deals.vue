@@ -17,16 +17,23 @@
 <script lang="ts" setup>
 import { useStore } from "@/store/";
 import { ClientJS } from 'clientjs';
+import { onMounted } from "vue";
 
 const store = useStore()
 const client = new ClientJS();
 const fingerprint = client.getFingerprint();
 
-store.getDeals(fingerprint)
+onMounted(async ()=>{
+  store.setLoading(true)
+  await store.getDeals(fingerprint)
+  store.setLoading(false)
+})
 
-const filter = (selling_type: string): void => {
+const filter = async (selling_type: string) => {
   const name: string | null = localStorage.getItem('name')
-  store.getDeals(fingerprint, selling_type, name)
+  store.setLoading(true)
+  await store.getDeals(fingerprint, selling_type, name)
+  store.setLoading(false)
 }
 
 const search = (name: string): void => {
@@ -34,16 +41,22 @@ const search = (name: string): void => {
   store.getDeals(fingerprint, selling_type, name)
 }
 
-const addToFavorite = (product_id: number): void => {
-  store.addFavorite(fingerprint, product_id)
+const addToFavorite = async (product_id: number) => {
+  store.setLoading(true)
+  await store.addFavorite(fingerprint, product_id)
+  store.setLoading(false)
 }
 
-const removeFromFavorite = (product_id: number): void => {
-  store.removeFavorite(fingerprint, product_id)
+const removeFromFavorite = async (product_id: number) => {
+  store.setLoading(true)
+  await store.removeFavorite(fingerprint, product_id)
+  store.setLoading(false)
 }
 
-const payDeal = (deal_id: number): void => {
-  store.payDeal(deal_id)
+const payDeal = async (deal_id: number) => {
+  store.setLoading(true)
+  await store.payDeal(deal_id)
+  store.setLoading(false)
 }
 
 </script>
